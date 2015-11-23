@@ -102,61 +102,61 @@ If you did any manipulation of the data at all it is not the raw form of the dat
 описать, как были собраны данные. Также в документе должнабыть секция "Справочник", в которой необходимо описать каждую переменную 
 и ее единицы измерения. 
 
-### How to code variables
+### Как обозначить значения переменных
 
-When you put variables into a spreadsheet there are several main categories you will run into depending on their [data type](http://en.wikipedia.org/wiki/Statistical_data_type):
+Когда вы помещаете переменные в таблицу, существует несколько основных категорий, с которыми придется столкнуться в зависимости от их 
+[типов данных](http://en.wikipedia.org/wiki/Statistical_data_type):
 
-1. Continuous
-1. Ordinal
-1. Categorical
-1. Missing 
-1. Censored
+1. Непрерывные данные
+1. Порядковые данные
+1. Данные категрий
+1. Отсутствующие даные 
+1. Цензурные данные
 
-Continuous variables are anything measured on a quantitative scale that could be any fractional number. An example
-would be something like weight measured in kg. [Ordinal data](http://en.wikipedia.org/wiki/Ordinal_data) are data that have a fixed, small (< 100) number of levels but are ordered. 
-This could be for example survey responses where the choices are: poor, fair, good. [Categorical data](http://en.wikipedia.org/wiki/Categorical_variable) are data where there
-are multiple categories, but they aren't ordered. One example would be sex: male or female. [Missing data](http://en.wikipedia.org/wiki/Missing_data) are data
-that are missing and you don't know the mechanism. You should code missing values as `NA`. [Censored data](http://en.wikipedia.org/wiki/Censoring_(statistics\)) are data
-where you know the missingness mechanism on some level. Common examples are a measurement being below a detection limit
-or a patient being lost to follow-up. They should also be coded as `NA` when you don't have the data. But you should
-also add a new column to your tidy data called, "VariableNameCensored" which should have values of `TRUE` if censored 
-and `FALSE` if not. In the code book you should explain why those values are missing. It is absolutely critical to report
-to the analyst if there is a reason you know about that some of the data are missing. You should also not [impute](http://en.wikipedia.org/wiki/Imputation_(statistics\))/make up/
-throw away missing observations.
+Непрерывные переменные это что-либо, измеряемое по количественной шкале, и являющееся любым дробным числом. Например вес измеряется в килограммах. 
+[Порядковые данные](http://en.wikipedia.org/wiki/Ordinal_data) это данные, которые фиксированы и имеют малое (<100) количество вариантов значений, но упорядоченных. 
+Для примера это могут быть ответы на опрос, где возможны следующие варианты: плохое, удовлетворительное, хорошее. [Данные категорий](http://en.wikipedia.org/wiki/Categorical_variable) 
+это данные, которые имеют несколько категорий, но они не упорядочены. Например, пол: мужской или женский. [Отсутствующие данные](http://en.wikipedia.org/wiki/Missing_data) это данные, 
+которые отсутствуют и вы не знаете механизм. Вы должны обозначать такие данные как `NA`. [Цензурные данные](http://en.wikipedia.org/wiki/Censoring_(statistics\)) это данные, 
+в которых вы знаете механизм пропажи даных на определенном уровне. Типичными примерами являются измерения, которые ниже предела обнаружения 
+или пациент теряет их в дальнейшем. Они также обозначаются как `NA`, когда у вас отсутсвуют эти данные. Но вы также должны добавить новую колонку к вашим обработанным данным 
+и назвать ее "VariableNameCensored", в которой отметить значения как `TRUE`, если они были зацензурены 
+и `FALSE`, если нет. В справочнике вам необходимо объяснить почему эти значения отсутствуют. Это асолютно необходимо сообщить аналитику, если вы знаете причину, почему некоторые 
+данные отсутствуют. 
 
-In general, try to avoid coding categorical or ordinal variables as numbers. When you enter the value for sex in the tidy
-data, it should be "male" or "female". The ordinal values in the data set should be "poor", "fair", and "good" not 1, 2 ,3.
-This will avoid potential mixups about which direction effects go and will help identify coding errors. 
+В общем, старайтесь избегать обозначений порядковых данных и данных категории как чисел. Когда вы вводите значение для пола в обработанные данные, 
+это должно быть "мужчина" или "женщина". Порядковые значения в наборе данных должны быть "плохое", "удовлетворительное", and "хорошее", а не 1, 2 ,3.
+Это позволит избежать вероятной путаницы в дальнейших действиях и поможет выявить ошибки кодирования. 
 
-Always encode every piece of information about your observations using text. For example, if you are storing data in Excel and use a form of colored text or cell background formatting to indicate information about an observation ("red variable entries were observed in experiment 1.") then this information will not be exported (and will be lost!) when the data is exported as raw text.  Every piece of data should be encoded as actual text that can be exported.  
+Всегда кодируйте каждый кусочек информации о своих наблюдениях, используя текст. Например, если вы сохраняете данные в Excel и используете 
+форму с цветным текстом или фоном ячейки, отформатированным для указания информации о наблюдении ("значения переменных, выделенных красным были обнаружены в эксперименте 1."), 
+то эта информация не будет экспортироваться (и будет потеряна!), когда данные экспортируются в качестве исходного текста. Каждая кусочек данных должен быть закодированы как обычный текст, 
+который можно экспортировать.  
 
-### The instruction list/script
+### Список инструкций/скрипт
 
-You may have heard this before, but [reproducibility is kind of a big deal in computational science](http://www.sciencemag.org/content/334/6060/1226).
-That means, when you submit your paper, the reviewers and the rest of the world should be able to exactly replicate
-the analyses from raw data all the way to final results. If you are trying to be efficient, you will likely perform
-some summarization/data analysis steps before the data can be considered tidy. 
+Возможно вы слышали это раньше, но [воспроизводимость является очень важным фактом в области вычислительных наук](http://www.sciencemag.org/content/334/6060/1226).
+Этоозначает, что когда вы отправляете ваш документ, рецензенты и весь остальной мир должны быть способны в точности повторить анализ 
+сырых данных на всем пути до конечного результата.Если вы пытаетесь быть более эффективным, то вы вероятно сделаете некоторое обощение/шаги по анализу данных, 
+до того как данные будут считаться обработанными.
 
-The ideal thing for you to do when performing summarization is to create a computer script (in `R`, `Python`, or something else) 
-that takes the raw data as input and produces the tidy data you are sharing as output. You can try running your script
-a couple of times and see if the code produces the same output. 
+Идеальная вещь для вас создать при выполнении обобщения компьютерный скрипт (на`R`, `Python` или чем-нибудь еще), который будет принимать сырые данные на входе и 
+выполнять обработку данных, которые вы потом отправите на выходе. Вы можете запустить скрипт пару раз и увидеть, дает ли код на выходе один и тот же результат.
 
-In many cases, the person who collected the data has incentive to make it tidy for a statistician to speed the process
-of collaboration. They may not know how to code in a scripting language. In that case, what you should provide the statistician
-is something called [pseudocode](http://en.wikipedia.org/wiki/Pseudocode). It should look something like:
+Во многих случаях, человек, который собрал данные, имеет стимул обработать их для статистика, чтобы ускориь процесс сотрудничества. Они могут не знать как 
+кодировать на языке скриптов. В этом случае, вы должны предоставить статистикам нечто, называемое [псевдокод](http://en.wikipedia.org/wiki/Pseudocode). Это 
+должно выглядеть примерно так:
 
-1. Step 1 - take the raw file, run version 3.1.2 of summarize software with parameters a=1, b=2, c=3
-1. Step 2 - run the software separately for each sample
-1. Step 3 - take column three of outputfile.out for each sample and that is the corresponding row in the output data set
+1. Шаг 1 - взять сырой файл, запустить версию 3.1.2 обобщающего программного обеспечения с параметрами a=1, b=2, c=3
+1. Шаг 2 - запустить программное обеспечение отдельно для каждого примера
+1. Шаг 3 - взять третью колонку в файле outputfile.out, сформированного для каждого примера и это будет соответсвующей строкой в наборе выходных данных.
 
-You should also include information about which system (Mac/Windows/Linux) you used the software on and whether you 
-tried it more than once to confirm it gave the same results. Ideally, you will run this by a fellow student/labmate
-to confirm that they can obtain the same output file you did. 
-
+Вы должны также включать информацию о опреационной системе (Mac/Windows/Linux)Ю которую вы использовали или на чем вы пробовали несколько раз и что 
+подтвердило одни и теже результаты. В идеале вы будете запускать это с помощью студента/лаборанта, чтобы подтвердить, что они могут получать теже 
+данные на выходе, что и вы.
 
 
-
-What you should expect from the analyst
+Что вы должы ожидать от аналитика
 ====================
 
 When you turn over a properly tidied data set it dramatically decreases the workload on the statistician. So hopefully
